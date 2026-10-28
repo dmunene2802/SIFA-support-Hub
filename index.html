@@ -1,0 +1,355 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<title>SIFA Help Centre</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;700&family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap">
+<style>
+/* Layout: one narrow reading column. Index = grouped list of problems; tapping one swaps in its fix page. */
+:root {
+  --bg: #ffffff;
+  --fg: #1c2330;
+  --muted: #5b6577;
+  --link: #0a5bd3;
+  --rule: #dfe4ec;
+  --panel: #f3f6fb;
+  --warn-bg: #fff4e0;
+  --warn-fg: #6b4300;
+  --tip-bg: #e9f4ee;
+  --tip-fg: #1d4d33;
+  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
+  --font-body: "Figtree", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #12161d; --fg: #e8ecf3; --muted: #9aa5b8; --link: #7db0ff; --rule: #29313f;
+    --panel: #1a202b; --warn-bg: #3a2c10; --warn-fg: #f3d9a2; --tip-bg: #16301f; --tip-fg: #b5e3c6;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #12161d; --fg: #e8ecf3; --muted: #9aa5b8; --link: #7db0ff; --rule: #29313f;
+  --panel: #1a202b; --warn-bg: #3a2c10; --warn-fg: #f3d9a2; --tip-bg: #16301f; --tip-fg: #b5e3c6;
+  color-scheme: dark;
+}
+body {
+  background: var(--bg); color: var(--fg);
+  font-family: var(--font-body); font-size: 17px; line-height: 1.55;
+  padding-block: 32px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+main { max-width: 760px; margin: 0 auto; }
+h1, h2, h3 { font-family: var(--font-display); font-weight: 400; text-wrap: balance; margin: 0; line-height: 1.2; }
+h1 { font-size: clamp(30px, 6vw, 40px); }
+h2 { font-size: 26px; }
+h3 { font-size: 21px; font-weight: 500; }
+a { color: var(--link); }
+a:focus-visible, input:focus-visible { outline: 3px solid var(--link); outline-offset: 2px; border-radius: 3px; }
+.eyebrow { font-size: 13px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin: 0 0 8px; }
+.lede { color: var(--muted); margin: 12px 0 0; max-width: 60ch; }
+.search { margin: 28px 0 8px; }
+.search input {
+  width: 100%; box-sizing: border-box; font: inherit; padding: 12px 14px;
+  border: 1px solid var(--rule); border-radius: 6px; background: var(--panel); color: var(--fg);
+}
+.group { margin-top: 40px; }
+.group h2 { padding-bottom: 14px; }
+.group ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.group li { border-top: 1px solid var(--rule); }
+.group li:last-child { border-bottom: 1px solid var(--rule); }
+.group li a { display: block; padding: 14px 0; font-weight: 700; text-decoration: none; }
+.group li a:hover { text-decoration: underline; }
+.empty { color: var(--muted); margin-top: 32px; }
+.quick { margin-top: 40px; font-weight: 700; }
+.back { display: inline-block; margin-bottom: 24px; font-weight: 500; text-decoration: none; }
+.back:hover { text-decoration: underline; }
+.fix h1 { margin-bottom: 16px; }
+.fix h3 { margin: 32px 0 12px; }
+.fix p { margin: 0 0 14px; max-width: 65ch; }
+.fix ol { margin: 0 0 16px; padding-left: 1.4em; max-width: 65ch; }
+.fix li { margin-bottom: 8px; }
+.note { border-radius: 6px; padding: 12px 16px; margin: 20px 0; max-width: 65ch; }
+.note b { display: block; font-size: 13px; letter-spacing: .06em; text-transform: uppercase; margin-bottom: 2px; }
+.note.tip { background: var(--tip-bg); color: var(--tip-fg); }
+.note.warn { background: var(--warn-bg); color: var(--warn-fg); }
+.table-wrap { overflow-x: auto; margin: 12px 0 20px; }
+table { border-collapse: collapse; width: 100%; min-width: 480px; }
+th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--rule); }
+th { font-size: 13px; letter-spacing: .06em; text-transform: uppercase; color: var(--muted); }
+td:first-child { min-width: 0; font-weight: 500; }
+code { background: var(--panel); padding: 1px 6px; border-radius: 4px; font-size: .95em; }
+footer { margin-top: 56px; color: var(--muted); font-size: 14px; }
+</style>
+
+</head>
+<body>
+<main>
+  <div id="index">
+    <p class="eyebrow">Educate! field support</p>
+    <h1>SIFA Help Centre</h1>
+    <p class="lede">Pick the problem the youth is having. You will go straight to the steps that fix it.</p>
+
+    <div class="search">
+      <input id="q" type="search" placeholder="Search problems, for example 404 or Okoa" aria-label="Search problems" autocomplete="off">
+    </div>
+
+    <section class="group" aria-labelledby="g1">
+      <h2 id="g1">Getting youth onto SIFA</h2>
+      <ul>
+        <li><a href="#access">How does a youth access SIFA?</a></li>
+        <li><a href="#add-to-home-screen">Add SIFA to the Home Screen</a></li>
+        <li><a href="#home-screen-locked">The Home Screen layout is locked and the icon will not add</a></li>
+      </ul>
+    </section>
+
+    <section class="group" aria-labelledby="g2">
+      <h2 id="g2">SIFA will not open or respond</h2>
+      <ul>
+        <li><a href="#stuck-loading">SIFA is stuck on a loading screen</a></li>
+        <li><a href="#not-responding">The Sawa button or text box does nothing</a></li>
+        <li><a href="#error-404">The youth gets a 404 error when opening the link</a></li>
+        <li><a href="#magic-link-missing">The youth never got a magic link, or it has expired</a></li>
+      </ul>
+    </section>
+
+    <section class="group" aria-labelledby="g3">
+      <h2 id="g3">Filling in the form and signing in</h2>
+      <ul>
+        <li><a href="#form-loop">The youth keeps looping on the same step of the form</a></li>
+        <li><a href="#google-sign-in">"Continue with Google" does nothing on the Registration app</a></li>
+      </ul>
+    </section>
+
+    <p class="empty" id="none" hidden>No problems match that search. Try a shorter word.</p>
+    <p class="quick"><a href="#cheat-sheet">Open the one-page cheat sheet</a></p>
+  </div>
+
+  <!-- Fix pages -->
+  <article class="fix" id="access" data-view hidden>
+    <a class="back" href="#">&larr; All problems</a>
+    <h1>How does a youth access SIFA?</h1>
+    <ol>
+      <li>The youth dials <code>*301#</code>.</li>
+      <li>A magic link arrives on their phone by SMS from Wasiliana.</li>
+      <li>The youth taps the link. It opens a browser and takes them straight into SIFA.</li>
+    </ol>
+    <div class="note tip"><b>Good to know</b>The magic link logs the youth in. They do not need a username or password. If the link is not tapped promptly or gets lost, see <a href="#magic-link-missing">missing or expired magic link</a>.</div>
+  </article>
+
+  <article class="fix" id="add-to-home-screen" data-view hidden>
+    <a class="back" href="#">&larr; All problems</a>
+    <h1>Add SIFA to the Home Screen</h1>
+    <p>Do this once SIFA is open in the browser. The youth can then find SIFA again from an app icon.</p>
+    <h3>Standard method (most phones)</h3>
+    <ol>
+      <li>Tap the three dots in the top right corner of the browser.</li>
+      <li>Tap <b>Add to Home Screen</b>.</li>
+      <li>On the "Get SIFA on your phone" page, scroll and tap <b>Install SIFA App</b>.</li>
+      <li>Wait a few seconds. The icon appears on the Home Screen.</li>
+    </ol>
+    <h3>Alternative method (mostly Samsung phones)</h3>
+    <p>Use this if "Add to Home Screen" is missing or does not work.</p>
+    <ol>
+      <li>With SIFA open in the browser, tap the three vertical lines at the bottom right of the screen.</li>
+      <li>Tap <b>Add current webpage to</b>.</li>
+      <li>Select <b>Home Screen</b>.</li>
+      <li>When asked "Add to Home page?", tap <b>Add</b>. Installation begins.</li>
+    </ol>
+    <div class="note tip"><b>Field tip</b>Android skins label this differently. If neither menu matches, look for wording like "Install app", "Add shortcut" or "Add page to". They do the same thing.</div>
+    <p>If the icon will not add, the layout may be locked. See <a href="#home-screen-locked">Home Screen locked</a>.</p>
+  </article>
+
+  <article class="fix" id="home-screen-locked" data-view hidden>
+    <a class="back" href="#">&larr; All problems</a>
+    <h1>The Home Screen layout is locked and the icon will not add</h1>
+    <p>Either route works.</p>
+    <h3>Route 1: through the Home Screen</h3>
+    <ol>
+      <li>Long-press empty space on the Home Screen until the popup menu appears.</li>
+      <li>Tap <b>Home screen settings</b>.</li>
+      <li>Toggle off <b>Lock Home screen layout</b>. These two options are usually next to each other.</li>
+    </ol>
+    <h3>Route 2: faster, if the phone has settings search</h3>
+    <ol>
+      <li>Open <b>Settings</b> and tap the search bar at the top.</li>
+      <li>Type "lock home screen".</li>
+      <li>Tap the result and toggle it off.</li>
+    </ol>
+    <p>Then go back to <a href="#add-to-home-screen">Add SIFA to the Home Screen</a>.</p>
+  </article>
+
+  <article class="fix" id="stuck-loading" data-view hidden>
+    <a class="back" href="#">&larr; All problems</a>
+    <h1>SIFA is stuck on a loading screen</h1>
+    <p>This is almost always one of two causes: an outdated browser, or depleted Okoa Data. If SIFA worked before and suddenly stopped, check Okoa Data first.</p>
+    <h3>Cause 1: outdated browser</h3>
+    <p>Check the Chrome version.</p>
+    <ol>
+      <li>Open the Chrome app.</li>
+      <li>Tap the three dots (top right), then <b>Settings</b>.</li>
+      <li>Scroll to <b>About Chrome</b>.</li>
+    </ol>
+    <p>If the version is below 100:</p>
+    <ol>
+      <li>Update the browser from the Play Store.</li>
+      <li>Recommend Google Chrome as the default browser for SIFA.</li>
+      <li>Reopen the magic link, or send a new one, once it is updated.</li>
+    </ol>
+    <div class="note tip"><b>Why this works</b>SIFA relies on modern browser features. Older or lesser-known pre-installed browsers often cannot display it, which causes an endless loading screen. Encourage every youth to use Chrome from the start.</div>
+    <h3>Cause 2: Okoa Data has run out</h3>
+    <p>SIFA runs on sponsored data. When Okoa Data is depleted the phone shows as disconnected. The magic link is often still valid. The connection just cannot reach the sponsored data.</p>
+    <ol>
+      <li>Ask: "Were you able to access SIFA before, and are you currently on Okoa Data or airtime?"</li>
+      <li>Access returns once the Okoa balance is paid off.</li>
+    </ol>
+    <div class="note tip"><b>Good to know</b>This is a data-access issue. It is not a SIFA problem and not a magic link problem.</div>
+  </article>
+
+  <article class="fix" id="not-responding" data-view hidden>
+    <a class="back" href="#">&larr; All problems</a>
+    <h1>The Sawa button or text box does nothing</h1>
+    <p>The youth taps the Sawa button or tries to type in the text box and nothing happens. Check the Chrome version.</p>
+    <ol>
+      <li>Open the Chrome app.</li>
+      <li>Tap the three dots (top right), then <b>Settings</b>.</li>
+      <li>Scroll to <b>About Chrome</b>.</li>
+    </ol>
+    <p>If the version is below 100:</p>
+    <ol>
+      <li>Update the browser from the Play Store.</li>
+      <li>Recommend Google Chrome as the default browser for SIFA.</li>
+      <li>Reopen the magic link, or send a new one, once it is updated.</li>
+    </ol>
+    <div class="note tip"><b>Why this works</b>SIFA relies on modern browser features. Older or lesser-known pre-installed browsers often cannot run it properly. Encourage every youth to use Chrome from the start.</div>
+  </article>
+
+  <article class="fix" id="error-404" data-view hidden>
+    <a class="back" href="#">&larr; All problems</a>
+    <h1>The youth gets a 404 error when opening the link</h1>
+    <p>A 404 means the magic link is broken. A common cause is a full stop at the end of the link. Fix it in either of two ways.</p>
+    <ol>
+      <li>Dial <code>*301#</code> again to receive a new magic link.</li>
+      <li>Use the Registration app. It has an option to generate the magic link directly, and you can share that with the youth.</li>
+    </ol>
+  </article>
+
+  <article class="fix" id="magic-link-missing" data-view hidden>
+    <a class="back" href="#">&larr; All problems</a>
+    <h1>The youth never got a magic link, or it has expired</h1>
+    <p>Generate a new link in the CEA app. Do not ask the youth to dial <code>*301#</code> again.</p>
+    <ol>
+      <li>Open the CEA app.</li>
+      <li>Tap <b>Verify Youth</b>.</li>
+      <li>Scroll down to <b>Youth Login Link</b>.</li>
+      <li>Tap it. A new magic link is generated.</li>
+      <li>Share the link with the youth so they can log back in.</li>
+    </ol>
+    <div class="note warn"><b>Check before sharing</b>Confirm you are sending the correct link to the correct youth. A misdirected magic link can log the wrong person into someone else's account.</div>
+  </article>
+
+  <article class="fix" id="form-loop" data-view hidden>
+    <a class="back" href="#">&larr; All problems</a>
+    <h1>The youth keeps looping on the same step of the form</h1>
+    <p>Walk them through this sequence to break the loop.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Step</th><th>Action</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>Type <b>Menu</b></td></tr>
+          <tr><td>2</td><td>Tap <b>endelea na sifa</b></td></tr>
+          <tr><td>3</td><td>Type <b>fomu</b></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
+
+  <article class="fix" id="google-sign-in" data-view hidden>
+    <a class="back" href="#">&larr; All problems</a>
+    <h1>"Continue with Google" does nothing on the Registration app</h1>
+    <p>This happens on the SIFA Registration app. Clearing all browsing data, set to "All time", usually fixes it. There are two methods.</p>
+    <h3>Method 1: through the Chrome app</h3>
+    <ol>
+      <li>Open Chrome.</li>
+      <li>Tap the three dots (top right), then <b>History</b>.</li>
+      <li>Tap <b>Delete browsing data</b>.</li>
+      <li>Set the time range to <b>All time</b>.</li>
+      <li>Make sure <b>Browsing history</b>, <b>Cookies and site data</b> and <b>Cached images and files</b> are ticked.</li>
+      <li>Tap <b>Clear data</b> to confirm.</li>
+    </ol>
+    <h3>Method 2: through the phone's Settings app</h3>
+    <ol>
+      <li>Open <b>Settings</b>, not the browser.</li>
+      <li>Tap <b>Apps</b>, then find and tap <b>Chrome</b>.</li>
+      <li>Tap <b>Storage &amp; cache</b>.</li>
+      <li>Tap <b>Clear data</b> (or "Clear storage").</li>
+      <li>Confirm the warning. This signs the youth out of all sites.</li>
+    </ol>
+    <div class="note warn"><b>Which to use</b>Method 1 lets you pick what to clear, so it is the safer default. Method 2 is faster but wipes saved logins and preferences for the whole app. Use it only when the youth cannot find or use the in-browser menu.</div>
+  </article>
+
+  <article class="fix" id="cheat-sheet" data-view hidden>
+    <a class="back" href="#">&larr; All problems</a>
+    <h1>Cheat sheet</h1>
+    <p>The whole playbook in one table, for when you are moving fast in the field. Tap a situation for the full steps.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Situation</th><th>What to do</th></tr></thead>
+        <tbody>
+          <tr><td><a href="#access">Youth needs to apply</a></td><td>Dial *301#, wait for the Wasiliana magic link, tap it to open SIFA.</td></tr>
+          <tr><td><a href="#add-to-home-screen">Add SIFA to Home Screen</a></td><td>Menu (&#8942;), Add to Home Screen, Install SIFA App.</td></tr>
+          <tr><td><a href="#add-to-home-screen">"Add to Home Screen" fails (Samsung)</a></td><td>Menu (&#8801;), Add current webpage to, Home Screen, Add.</td></tr>
+          <tr><td><a href="#stuck-loading">SIFA will not stop loading</a></td><td>Update the browser (switch to Chrome), or check whether Okoa Data has run out.</td></tr>
+          <tr><td><a href="#magic-link-missing">Magic link missing or expired</a></td><td>CEA app, Verify Youth, Youth Login Link, generate, then share. Check the youth first.</td></tr>
+          <tr><td><a href="#home-screen-locked">Home Screen layout locked</a></td><td>Long-press Home Screen, Home screen settings, toggle off the lock.</td></tr>
+          <tr><td><a href="#error-404">404 error on link</a></td><td>Dial *301# again, or use the Registration app to generate a link.</td></tr>
+          <tr><td><a href="#form-loop">Youth stuck looping on the form</a></td><td>Type Menu, tap "endelea na sifa", type fomu.</td></tr>
+          <tr><td><a href="#google-sign-in">"Continue with Google" does nothing</a></td><td>Clear browsing data: Chrome, History, Delete browsing data, All time. Or Settings, Apps, Chrome, Storage &amp; cache, Clear data.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </article>
+
+  <footer>From the SIFA Support Playbook, last updated 2 October 2026.</footer>
+</main>
+
+<script>
+(function () {
+  var index = document.getElementById('index');
+  var views = document.querySelectorAll('[data-view]');
+  function route() {
+    var id = location.hash.slice(1), found = false;
+    views.forEach(function (v) {
+      var show = v.id === id;
+      if (show) found = true;
+      v.hidden = !show;
+    });
+    index.hidden = found;
+    window.scrollTo(0, 0);
+  }
+  window.addEventListener('hashchange', route);
+  route();
+
+  var q = document.getElementById('q'), none = document.getElementById('none');
+  q.addEventListener('input', function () {
+    var term = q.value.trim().toLowerCase(), any = false;
+    document.querySelectorAll('.group').forEach(function (g) {
+      var shown = 0;
+      g.querySelectorAll('li').forEach(function (li) {
+        var hit = !term || li.textContent.toLowerCase().indexOf(term) !== -1;
+        li.hidden = !hit;
+        if (hit) shown++;
+      });
+      g.hidden = shown === 0;
+      if (shown) any = true;
+    });
+    none.hidden = any;
+  });
+})();
+</script>
+</body>
+</html>
